@@ -37,6 +37,7 @@ while True:
   except:
     print("Check NG")
 
+
 for year in range(11):
   output()
   print(f"{year} 年後の預金額は{yen * (1+rate) ** year:,.1f}です")
