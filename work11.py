@@ -26,5 +26,6 @@ array_del()
 
 # 配列の要素の1番目に要素を追加する
 str3 = input("要素を追加してください")
-members.insert(1,str3)
+w_array = str3.strip().split(" ")
+members.insert(1,w_array)
 print(members)
