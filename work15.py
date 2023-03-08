@@ -3,10 +3,12 @@
 
 
 import random
+# 自分のじゃんけんの手変数
+m_hand = ""
+# コンピュータのじゃんけんの手変数
+c_hand = ""
  
-def print_hand(hand, name='ゲスト'):
-    print(name + 'は' + hand + 'を出しました')
-    
+# コンピュータのじゃんけんの手関数    
 def d_hand(num):
   match(num):
     case 0:
@@ -18,11 +20,26 @@ def d_hand(num):
     case 2:
       hand1 = "パー"
       return hand1 
-    
+
+# 勝敗判定関数
+def res(player_name,m_hand,c_hand):
+  if m_hand == c_hand:
+    print("あいこです")
+  elif m_hand == "グー" and c_hand == "パー":
+    print(f"{player_name}の負けです")
+  elif m_hand == "グー" and c_hand == "チョキ":
+    print(f"{player_name}の勝ちです")
+  elif m_hand == "チョキ" and c_hand == "グー":
+    print(f"{player_name}の負けです")
+  elif m_hand == "チョキ" and c_hand == "パー":
+    print(f"{player_name}の勝ちです")
+  elif m_hand == "パー" and c_hand == "チョキ":
+    print(f"{player_name}の負けです")
+  elif m_hand == "パー" and c_hand == "グー":
+    print(f"{player_name}の勝ちです")
+      
       
 print('じゃんけんをはじめます')
-m_hand = ""
-c_hand = ""
 # input を用いて入力を受け取り、変数 player_name に代入してください
 player_name = input("名前を入力してください：")
 # じゃんけんの手を入力する
@@ -43,18 +60,5 @@ c_hand = d_hand(w_num)
 if player_name == "":
   player_name = "ゲスト"
 
-if m_hand == c_hand:
-  print("あいこです")
-elif m_hand == "グー" and c_hand == "パー":
-  print(f"{player_name}の負けです")
-elif m_hand == "グー" and c_hand == "チョキ":
-  print(f"{player_name}の勝ちです")
-elif m_hand == "チョキ" and c_hand == "グー":
-  print(f"{player_name}の負けです")
-elif m_hand == "チョキ" and c_hand == "パー":
-  print(f"{player_name}の勝ちです")
-elif m_hand == "パー" and c_hand == "チョキ":
-  print(f"{player_name}の負けです")
-elif m_hand == "パー" and c_hand == "グー":
-  print(f"{player_name}の勝ちです")
-          
+res(player_name,m_hand,c_hand)
+print('じゃんけんを終了します')
