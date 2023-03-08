@@ -4,6 +4,12 @@
 # 配列
 fruits = {'apple': 'りんご', 'banana': 'バナナ', 'grape': 'ぶどう'}
 
+
+fruits['melon'] = "メロン"
+fruits['pain'] = "パイン"
+
+sorted(fruits.items())
+print(fruits)
+sorted(fruits.items(),reverse=True)
 # for 文を用いて、辞書のキーを1つずつ取り出し、繰り返しの中で「 ◯◯は△△という意味です 」と出力させてください
-for fruits_key in fruits:
-  print(fruits_key + "は" + fruits[fruits_key] + "という意味です")
+print(fruits)
