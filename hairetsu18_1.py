@@ -2,6 +2,7 @@
 # 要素を重複させない
 # 順序は保持されない
 # インデックスを利用できない
+# 新規作成 2023/3/9
 members = {"Taro","Jiro","Saburo","Taro"}
 
 members.add("Siro")
