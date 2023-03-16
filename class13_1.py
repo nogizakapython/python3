@@ -7,7 +7,7 @@ class Human():
         self._age = age
     def show(self):
         print(f"私の名前は{self.name}です。年齢は{self._age}です。")
-    def likes(self):
+    def add_age(self):
         self._age += 1
 jonson = Human()
 jonson.show()
@@ -16,5 +16,5 @@ man.show()
 woman = Human("mariko")
 woman.show()
 mika = Human("mika",30)
-mika.likes()
+mika.add_age()
 mika.show()
