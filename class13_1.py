@@ -1,4 +1,5 @@
 # クラスのオーバーロード
+# 新規作成 2023/3/16
 
 class Human():
     def __init__(self, name="Jonson", age=20):
