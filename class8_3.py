@@ -37,7 +37,7 @@ nog2.show()
 
 nog3 = Nogizaka1("一ノ瀬美空","みーきゅんきゅん🎵")
 
-
+nog3.likes = -1
 for i in range(0,5):
     nog3.like()
 
