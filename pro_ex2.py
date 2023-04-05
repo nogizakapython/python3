@@ -10,4 +10,3 @@ for key in menus.keys():
 
 # print(f"{str.key}の意味は{str.value}です")
     
-    
