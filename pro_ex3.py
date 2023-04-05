@@ -1,5 +1,5 @@
 # 新規作成 2023/4/5
-#　配列の表示
+#　辞書の要素の
 
 menus={"pork":"豚肉","beaf":"牛肉","chicken":"鶏肉"}
 
@@ -18,6 +18,7 @@ while True:
 
 
 # print(list(menus.items())[number])
+# 
 key,value = list(menus.items())[number]
 print(f"{key}の意味は{value}です")
 
