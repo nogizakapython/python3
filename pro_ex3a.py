@@ -9,7 +9,7 @@ str = ""
 while True:
     try:
         str1 = input(f"pork,beaf,chicken,fishの4つから1つの単語を選んでください ")
-        if str1 != "pork" and str1 != "beaf" and str1 != "chicken" and str1 != "fish":
+        if str1 not in menus:
             raise ValueError
         else:
             str = str1
