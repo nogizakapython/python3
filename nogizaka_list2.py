@@ -42,6 +42,9 @@ selected_menu = menu_items[select_number]
 # 「 選択されたメニュー: 〇〇 」と出力してください
 print("選択されたメニュー→" + selected_menu.membercheck())
 
+# 5冊以上購入すると送料無料のメッセージを出力する
+selected_menu.send_info()
+
 while True:
   try:
     count_number = int(input(f"購入冊数を1以上の整数を入力してください"))

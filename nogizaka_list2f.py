@@ -18,10 +18,15 @@ class BookItem:
           return self.name + "は乃木坂メンバーです。「" + self.title + "」は" + str(self.price) + "円で発売中です"
         else:
           return msg1   
+    
+    def send_info(self):
+        print("5冊以上購入すると送料無料です")  
 
     def get_total_price(self, count):
         total_price = self.price * count
-        # 5冊以上購入した場合は1割引き
-        if count >= 5:
-            total_price *= 0.9
+        send_price = 500
+        # 5冊以上購入した場合は送料無料
+        if count < 5:
+            total_price += send_price 
+        
         return round(total_price)
