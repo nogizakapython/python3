@@ -13,6 +13,8 @@ computer_win = 0
 player_win = 0
 # 引き分け数
 draw_count = 0
+# 勝利数設定
+win_count = 4
 playername = ""
 
 # 初期処理(名前の登録)
@@ -46,7 +48,7 @@ while True:
         else:
             draw_count += 1    
         
-        if computer_win == 4 or player_win == 4:
+        if computer_win == win_count or player_win == win_count:
             break    
                 
     else:
