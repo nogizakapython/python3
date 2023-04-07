@@ -21,6 +21,7 @@ class BookItem:
 
     def get_total_price(self, count):
         total_price = self.price * count
+        # 5冊以上購入した場合は1割引き
         if count >= 5:
             total_price *= 0.9
         return round(total_price)
