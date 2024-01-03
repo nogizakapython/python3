@@ -16,5 +16,8 @@ for i in range(0,num):
     array1 = data1.split(' ')
     N = float(array1[0])
     M = int(array1[1])
-    ans = "{:.{}f}".format(N,M)
+    try:
+      ans = "{:.{}f}".format(N,M)
+    except:
+      print("無効")
     print(ans)
