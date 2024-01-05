@@ -1,0 +1,6 @@
+data = input()
+array1 = data.split(" ")
+N = int(array1[0])
+M = int(array1[1])
+ans = format(M,"{: >{}}".format(N))
+print(ans)
