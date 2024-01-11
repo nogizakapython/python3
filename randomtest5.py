@@ -4,9 +4,13 @@
 
 #ランダムモジュールを呼び出す
 import random
+# エクセルへの書き込みモジュールを呼び出す
 import openpyxl
+# 関連付けられたアプリケーションでファイルを開くモジュールを呼び出す
 import subprocess
+# 非同期処理用モジュールを呼び出す
 import asyncio
+# タイムモジュールを呼び出す
 import time
 
 #配列を定義する
@@ -92,6 +96,8 @@ for k in range(0,N,1):
 
 #エクセルファイルを保存する
 wb.save(out_file)
+
+# 非同期処理で
 asyncio.run(main())
 
 
