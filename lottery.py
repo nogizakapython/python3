@@ -42,12 +42,12 @@ async def start_msg():
 
 # 非同期処理で10秒間演出する
 async def message_out():
-    for k in range(0,5):
+    for k in range(0,4):
       await asyncio.sleep(play_time)
       print("ﾄﾞﾗ" * 20)
       div1()
 
-
+#非同期メイン関数
 async def main():
 
   task1 = asyncio.create_task(
