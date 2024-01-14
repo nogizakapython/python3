@@ -115,4 +115,4 @@ asyncio.run(main())
 
 
 #エクセルファイルを開く
-subprocess.Popen(['start',r'odai.xlsx'],shell=True)
+subprocess.Popen(['start',f"{out_file}"],shell=True)
