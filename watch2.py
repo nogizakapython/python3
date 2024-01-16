@@ -10,11 +10,11 @@ root = tk.Tk()
 
 root.title('My Clock')
 
-cnvs = tk.Canvas(width = 700, height = 300, background = '#27c85d')
+cnvs = tk.Canvas(width = 700, height = 300, background = '#33ff08')
 
 cnvs.pack()
 
-cnvs.create_text(350, 150, text = '', font = ('', 100), fill = '#ff0000', tags = 'MyText')
+cnvs.create_text(350, 150, text = '', font = ('', 100), fill = '#9100ff', tags = 'MyText')
 
 try:
 
