@@ -5,8 +5,8 @@
 import re
 import os
 
-FILE_NAME = "NCM29_202310.log"
-OUT_FILE = "NCM29_202310replace.log"
+FILE_NAME = "gra_nogizaka.txt"
+OUT_FILE = "gra_nogizakareplace.txt"
 
 if os.path.exists(OUT_FILE):
     os.remove(OUT_FILE)
