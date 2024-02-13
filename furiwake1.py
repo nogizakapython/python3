@@ -3,27 +3,28 @@
 
 
 # ライブラリを読み込む
-import openpyxl as px
+import openpyxl as op
 from openpyxl import load_workbook
-import math
+import re
 
 
-# メンバー配列リスト(作業者6人まで)
-array1 = {}
-array2 = []
+# メンバー配列リスト
+array1 = []
+dict1 = {}
 
 infile = r"C:\\nikkei\\振り分け\\担当振り分けテンプレート.xlsx"
 sh_name = "検索結果"
-wb = load_workbook(filename = infile)
+wb = op.load_workbook(filename = infile)
 ws = wb[sh_name]
 
 def main():
     num = 0
-    work_data = 0
-    work_sum = 0
     start_row = 3
     max_row = start_row
+    work_num = 0
+    work_data = 0
     count = 0
+    j = 0
     while True:
         try:
             num = int(input("作業人数を入力してください\n"))
@@ -44,31 +45,46 @@ def main():
                 if len(data1) == 0:
                     raise ValueError
                 else:
-                    new_key = str(data1)
-                    array1[new_key] = 0
+                    array1.append(data1)
                     count += 1
                     break
                     
             except ValueError:
                 print("作業者が入力されていません。")
           
-
+    # 日経検索件数
     while True:
         work_num = ws.cell(row=max_row,column=9).value 
         if work_num == None:
             work_data += max_row - start_row 
             break
         else:
-            work_num = int(work_num)
-            array2.append(work_num)
-            work_sum = work_sum + work_num
             max_row += 1
-        avg = math.ceil(work_sum / num)
+    #　Dictionaryに名前と初期化した値を代入する 
+    for i in range(num):
+        name = array1[i]
+        dict1[name] = ""
+
+    for data in range(start_row,max_row):
+        if j == count:
+            j = 0
+
+        while True:
+            name1 = array1[j]
+            workload = ws.cell(row=data,column=9).value
+            value1 = dict1[name1]
+            result1 = re.search("A",value1)
+            if result1:
+                j += 1
+            else:
+                break    
         
+        value1 += workload
+        ws.cell(row=data,column=10).value = name1    
+        dict1[name1] = value1
         
-
-
-
+        j += 1
+    wb.save(infile)
 
 if __name__ == '__main__':
     main()
