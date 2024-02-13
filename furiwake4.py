@@ -82,12 +82,15 @@ def main():
                 break
 
         value1 += workload
+        # エクセルファイルに書き込む
         ws.cell(row=data,column=4).value = name1
+        # 連想配列の値を更新する
         dict1[name1] = value1
 
         j += 1
     wb.save(infile)
 
+# メイン関数
 if __name__ == '__main__':
     main()
 
