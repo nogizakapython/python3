@@ -1,12 +1,11 @@
 # 人事異動作業担当者割り振りツール
 #  新規作成  2024/2/14
-#  Create by Accenture Satellight Namamugi
+#  Create by 乃木坂好きのITエンジニア
 
 
 # ライブラリを読み込む
 import openpyxl as op
 from openpyxl import load_workbook
-import re
 import datetime
 import shutil
 import sys
@@ -28,7 +27,7 @@ def inisial():
     wb = op.load_workbook(filename = infile)
     ws = wb[sh_name]
     while True:
-        work_num = ws.cell(row=max_row,column=9).value 
+        work_num = ws.cell(row=max_row,column=9).value
         if work_num == None:
             break
         else:
@@ -40,14 +39,14 @@ def inisial():
             ws.cell(row=max_row,column=8).value = None
             ws.cell(row=max_row,column=9).value = None
             max_row += 1
-    
-    try:    
+
+    try:
         wb.save(infile)
     except PermissionError:
-            print(f"{infile}エクセルファイルを閉じてください") 
+            print(f"{infile}エクセルファイルを閉じてください")
             sys.exit()
-    
-                   
+
+
 
 # マクロテンプレートのデータを作業振り分けファイルにコピーする
 def datacopy():
@@ -60,7 +59,7 @@ def datacopy():
     wb2 = op.load_workbook(filename = infile)
     ws2 = wb2[sh_name]
     while True:
-        work_num = ws1.cell(row=max_row,column=9).value 
+        work_num = ws1.cell(row=max_row,column=9).value
         if work_num == None:
             break
         else:
@@ -80,19 +79,19 @@ def datacopy():
             ws2.cell(row=max_row,column=8).value = flag
             ws2.cell(row=max_row,column=9).value = value1
             if value1 == "A":
-                A_count += 1 
+                A_count += 1
             max_row += 1
-            
 
-    #エクセルファイルを保存する。開いている場合は例外処理で終了する。 
-    # ファイルが開いていたら、ファイル名を表示して処理を中止する。 
-    try:    
+
+    #エクセルファイルを保存する。開いている場合は例外処理で終了する。
+    # ファイルが開いていたら、ファイル名を表示して処理を中止する。
+    try:
         wb2.save(infile)
     except PermissionError:
-        print(f"{infile}エクセルファイルを閉じてください") 
+        print(f"{infile}エクセルファイルを閉じてください")
         sys.exit()
-    return A_count    
-    
+    return A_count
+
 
 # 日付付きの担当振り分けファイルを作成する。
 def main(A_count):
@@ -120,10 +119,10 @@ def main(A_count):
             else:
                 break
         except ValueError:
-            print("1以上の正の整数を入力してください")    
+            print("1以上の正の整数を入力してください")
         except TypeError:
             print("文字列を入力してください")
-    
+
     #作業担当者を入力
     for i in range(0,num):
         print("作業担当者の名前を入力してください")
@@ -139,23 +138,23 @@ def main(A_count):
                     array1.append(data1)
                     count += 1
                     break
-                    
+
             except ValueError:
                 print("作業者が入力されていません。")
-          
+
     # 本日の検索結果のデータがNoneになるまで1行ずつ読み込む
     while True:
-        work_num = ws.cell(row=max_row,column=9).value 
+        work_num = ws.cell(row=max_row,column=9).value
         if work_num == None:
-            work_data += max_row - start_row 
+            work_data += max_row - start_row
             break
         else:
             max_row += 1
-    #　Dictionaryに名前と初期化した値を代入する 
+    #　Dictionaryに名前と初期化した値を代入する
     for i in range(num):
         name = array1[i]
         dict1[name] = ""
-    A_eval = int(A_count / num) 
+    A_eval = int(A_count / num)
     # データ開始行とデータ終了行を読み込み、作業量の重みが「A」データは1件または2件担当者をアサインし、
     # 作業量の軽い転記作業にアサインしない。
     #  作業量の重みが「B」、「C」の時は複数件の転記作業をアサインする
@@ -172,14 +171,14 @@ def main(A_count):
             # は割り振らない
             # Aの件数を人数で割った商が1なら作業量「A」を21件割り振ったメンバーは「B」、「C」
             # は割り振らない
-            
+
             if A_eval == 0:
                 A_workload = 1
             elif A_eval == 1:
                 A_workload = 2
             if value1_count > 0:
-                work_A_count = 0 
-                
+                work_A_count = 0
+
                 for k in range(0,value1_count):
                     w_str1 = value1[k]
                     if w_str1 == "A":
@@ -188,17 +187,17 @@ def main(A_count):
             if work_A_count == A_workload:
                 j += 1
             else:
-                break    
+                break
         value1 += workload
-        ws.cell(row=data,column=10).value = name1    
+        ws.cell(row=data,column=10).value = name1
         dict1[name1] = value1
         print(dict1)
         j += 1
-    #エクセルファイルを保存する関数を呼び出す。 
-    try:    
+    #エクセルファイルを保存する関数を呼び出す。
+    try:
         wb.save(outfile)
     except PermissionError:
-        print(f"{outfile}エクセルファイルを閉じてください") 
+        print(f"{outfile}エクセルファイルを閉じてください")
         sys.exit()
 
 # メイン関数
@@ -206,4 +205,4 @@ if __name__ == '__main__':
     inisial()
     numA = datacopy()
     main(numA)
-    
+
