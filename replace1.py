@@ -5,13 +5,13 @@
 import re
 import os
 
-FILE_NAME = "gra_nogizaka.txt"
-OUT_FILE = "gra_nogizakareplace.txt"
+IN_FILE = "NCM29_202310.log"
+OUT_FILE = "NCM29_202310replace.log"
 
 if os.path.exists(OUT_FILE):
     os.remove(OUT_FILE)
 
-with open(FILE_NAME,mode='r') as f:
+with open(IN_FILE,mode='r') as f:
     for line in f:
         line1 = line.replace(" ","\t")
         f2 = open(OUT_FILE,'a')
