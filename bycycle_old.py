@@ -19,8 +19,8 @@ class Bycycle:
         self.__name = set_name
 
 
-  def ride(self):
-    print(f"{self.__name}は自転車を漕ぐ")
+  def riding(self,set_name):
+    print(f"{set_name}は自転車を漕ぐ")
 
-  def breaking(self):
-    print(f"{self.__name}はブレーキをかけて止まる")
+  def breaking(self,set_name):
+    print(f"{set_name}はブレーキをかけて止まる")
