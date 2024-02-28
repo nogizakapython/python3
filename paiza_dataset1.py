@@ -1,0 +1,7 @@
+data1 = input()
+array1 = data1.split(' ')
+N = int(array1[0])
+M = int(array1[1])
+data2 = input()
+data_array = data2.split(' ')
+print(data_array[M-1])
