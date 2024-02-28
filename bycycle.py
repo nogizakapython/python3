@@ -17,6 +17,8 @@ class Bycycle:
   def setName(self,set_name):
      if len(set_name) > 0:
         self.__name = set_name
+     elif len(set_name) == 0:
+        self.__name = "人"
 
 
   def ride(self):
