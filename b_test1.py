@@ -18,5 +18,13 @@ eby.setName = "久保史緒里"
 driver_name3 = eby.getName
 eby.ride()
 eby.breaking()
-eby.electronic_ride()
+eby.electronic_ride(driver_name3)
+
+
+eby = ElectricBycycle("遠藤さくら")
+eby.setName = ""
+driver_name3 = eby.getName
+eby.ride()
+eby.breaking()
+eby.electronic_ride(driver_name3)
 
