@@ -49,7 +49,7 @@ def main():
     # ループから抜ける。
     for line in file_data:
         line = line.replace("　"," ")
-        print(line)
+        # print(line)
         result1 = re.match(pattern1,line)
         result2 = re.match(pattern2,line)
         result3 = re.match(pattern3,line)
