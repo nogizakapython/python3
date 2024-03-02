@@ -1,14 +1,8 @@
-####################################################################################################
-#   新規作成   2023/12/1  takao.hattori
-#   修正       2023/12/6  takao.hattori(結果ファイルのファイル名に作業日時をつけて保存する処理に変更)
-#   修正       2023/12/7  takao.hattori(日経新聞の人事異動サイトから人事情報のページのHTMLを取り出し、
-#                        会社名、記事のURL、HP掲載日を取得できる処理を追加)
-####################################################################################################
 #ライブラリのインポート
 from bs4 import BeautifulSoup
 import urllib3
 import codecs
-import datetime  
+import datetime
 import re
 import os
 import requests
@@ -43,7 +37,7 @@ repattern3 = re.compile(pattern3)
 
 
 # 処理開始メッセージの出力
-print("日経新聞からの人事情報取得処理開始")  
+print("日経新聞からの人事情報取得処理開始")
 
 for i in range(start_num,end_num):
     http = urllib3.PoolManager()
@@ -54,7 +48,7 @@ for i in range(start_num,end_num):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
 
-    
+
 
     # title タグの文字列を取得する
     title_text = soup.find_all(class_=["dateHeadline_d18sgrke","container_cyywo23"])
@@ -87,10 +81,10 @@ for line in file_data:
             f.write(line)
         elif result2:
             f.write(line)
-            
+
 
 file_data.close()
 
 
 #　処理終了メッセージのコンソール出力
-print("日経新聞からの人事情報取得処理終了") 
+print("日経新聞からの人事情報取得処理終了")

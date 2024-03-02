@@ -1,9 +1,3 @@
-########################################################
-#####  人事情報掲載先のURL(絶対パスへ変換)、企業名、掲載日をCSV
-#####  ファイルに出力する処理         ###################
-#####  新規作成 2023/12/6 takao.hattori  ###############
-#####  修正     2023/12/7 takao.hattori 出力結果を現在使用しているフォーマットに修正
-########################################################
 
 # ライブラリのインポート
 import os
@@ -54,14 +48,14 @@ for line in file_data:
             w_url = w_array2[10]
             w_url = w_url.replace('<a class="fauxBlockLink_f1dg9afs" href="',"")
             w_url = w_url.replace('"',"")
-            # print(w_url)   
+            # print(w_url)
             base_url = "https://www.nikkei.com"
             result_url = base_url + w_url
             w_company = w_array2[11]
             w_company = w_company.replace("</a","")
             # print(w_company)
             w_msg = w_company + "," + w_url + "," + w_ymdhm + "\n"
-            f.write(w_msg)     
+            f.write(w_msg)
 
 
 
