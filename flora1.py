@@ -28,7 +28,7 @@ pattern3 = '<p>'
 
 
 # スクレイピング関数
-def scrapping():
+def scraping():
     http = urllib3.PoolManager()
     # スクレイピング対象の URL にリクエストを送り HTML を取得する
     r = requests.get(get_url)
@@ -39,7 +39,7 @@ def scrapping():
 
 # メイン関数
 def main():
-    scrapping()
+    scraping()
     file_data = open(file_name,"r",encoding="utf-8")
 
     file_exist = os.path.isfile(result_file)
