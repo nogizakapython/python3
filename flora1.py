@@ -24,7 +24,8 @@ result_file = "flora.txt"
 # 検索文字列
 pattern1 = '<td class="title">'
 pattern2 = '<td class="content">'
-pattern3 = '<td class="title">事業所所在地</td>'
+pattern3 = '<p>'
+
 
 # スクレイピング関数
 def scrapping():
@@ -47,18 +48,20 @@ def main():
     # テーブルタグを取得したタグファイルから、不必要tableタグデータ行を読み込んだ時にファイル出力
     # ループから抜ける。
     for line in file_data:
+        line = line.replace("　"," ")
+        print(line)
+        result1 = re.match(pattern1,line)
+        result2 = re.match(pattern2,line)
         result3 = re.match(pattern3,line)
-        if result3:
-            break
-        else:
-            result1 = re.match(pattern1,line)
-            result2 = re.match(pattern2,line)
-            # 必要なデータをファイルに出力する
-            with open(result_file,mode="a",encoding="utf-8") as f:
-                if result1:
-                    f.write(line)
-                elif result2:
-                    f.write(line)
+        # 必要なデータをファイルに出力する
+        with open(result_file,mode="a",encoding="utf-8") as f:
+            if result1:
+                f.write(line)
+            elif result2:
+                f.write(line)
+            elif result3:
+                f.write(line)
+
     # 出力ファイルを閉じる
     file_data.close()
 
