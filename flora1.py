@@ -55,12 +55,9 @@ def main():
         result3 = re.match(pattern3,line)
         # 必要なデータをファイルに出力する
         with open(result_file,mode="a",encoding="utf-8") as f:
-            if result1:
+            if result1 or result2 or result3:
                 f.write(line)
-            elif result2:
-                f.write(line)
-            elif result3:
-                f.write(line)
+
 
     # 出力ファイルを閉じる
     file_data.close()
