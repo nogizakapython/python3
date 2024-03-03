@@ -7,6 +7,7 @@ import re
 import openpyxl as op
 import shutil
 import os
+import sys
 
 #項目を取得
 pattern1 = '<td class="title">'
@@ -80,7 +81,12 @@ def p_tag_cleansing(line):
 
 # エクセルファイルへデータを書き込む関数
 def output_data(w_item,company_content,holding_content):
-    wb = op.load_workbook(output_file)
+    # 出力先エクセルファイルを開く。開かない場合は例外処理ルーチンに入り処理を終了する。
+    try:
+        wb = op.load_workbook(output_file)
+    except PermissionError as e:
+        print(f"{output_file}が開いています。閉じてください")
+        sys.exit()
     sh_name = "会社概要"
     ws = wb[sh_name]
     ws.cell(row=count_row,column=2).value = w_item
@@ -124,7 +130,6 @@ for line in file_data:
 
     if result5:
         w_p_content = p_tag_cleansing(line)
-        print(w_p_content)
         if w_p_count == 1:
             w_p_company_content +=  w_p_content
         elif w_p_count == 2:
