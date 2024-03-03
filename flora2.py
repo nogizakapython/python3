@@ -42,7 +42,7 @@ start_row = 5
 count_row = start_row
 
 
-# 以前に実行した出力ファイルを削除
+# 以前に実行した出力ファイルを削除。出力ファイルが開いている場合は例外処理でメッセージを出力して終了する
 def remove_output_file():
     is_file = os.path.isfile(output_file)
     if is_file:
@@ -85,7 +85,7 @@ def p_tag_cleansing(line):
 
 # エクセルファイルへデータを書き込む関数
 def output_data(w_item,company_content,holding_content):
-    # 出力先エクセルファイルを開く。開かない場合は例外処理ルーチンに入り処理を終了する。
+    # 出力先エクセルファイルを開く。
     wb = op.load_workbook(output_file)
     sh_name = "会社概要"
     ws = wb[sh_name]
