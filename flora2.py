@@ -94,7 +94,6 @@ def output_data(w_item,company_content,holding_content):
     ws.cell(row=count_row,column=4).value = holding_content
     wb.save(output_file)
 
-
 # メイン処理
 remove_output_file()
 output_file_copy()
