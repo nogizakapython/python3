@@ -28,8 +28,11 @@ class Test1():
 def main():
   nogizaka_member = []
 
-  for name in ["梅澤美波","山下美月","遠藤さくら","井上和","田村真佑"]:
+  for name in ["梅澤美波","山下美月","遠藤さくら","井上和","田村真佑","秋元真夏"]:
     t = Test1(name)
+    if name == "秋元真夏":
+      t.setter_name = "池田瑛紗"
+
     nogizaka_member = t.append_test(nogizaka_member)
 
   for number,name2 in enumerate(nogizaka_member,1):
