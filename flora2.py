@@ -46,7 +46,11 @@ count_row = start_row
 def remove_output_file():
     is_file = os.path.isfile(output_file)
     if is_file:
-        os.remove(output_file)
+        try:
+            os.remove(output_file)
+        except PermissionError as e:
+             print(f"{output_file}が開いています。閉じてください")
+             sys.exit()
 
 # 出力ファイルのコピーメソッド
 def output_file_copy():
@@ -82,11 +86,7 @@ def p_tag_cleansing(line):
 # エクセルファイルへデータを書き込む関数
 def output_data(w_item,company_content,holding_content):
     # 出力先エクセルファイルを開く。開かない場合は例外処理ルーチンに入り処理を終了する。
-    try:
-        wb = op.load_workbook(output_file)
-    except PermissionError as e:
-        print(f"{output_file}が開いています。閉じてください")
-        sys.exit()
+    wb = op.load_workbook(output_file)
     sh_name = "会社概要"
     ws = wb[sh_name]
     ws.cell(row=count_row,column=2).value = w_item
