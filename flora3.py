@@ -27,8 +27,6 @@ record2 = '<td class="title">事業内容</td>'
 input_file =  "flora.txt"
 # テンプレートエクセルファイル
 template_excel_file = "会社概要.xlsx"
-# 出力ファイル
-output_file = "会社概要出力結果.xlsx"
 # 会社名、ホールディング名判定カウント
 w_count = 0
 # pタグ会社名、ホールディング名判定カウント
@@ -36,20 +34,7 @@ w_p_count = 0
 w_p_company_content = ""
 w_p_holding_content = ""
 
-# エクセルファイルの開始行
-start_row = 5
-count_row = start_row
 
-
-# 以前に実行した出力ファイルを削除
-def remove_output_file():
-    is_file = os.path.isfile(output_file)
-    if is_file:
-        os.remove(output_file)
-
-# 出力ファイルのコピーメソッド
-def output_file_copy():
-    shutil.copy2(template_excel_file,output_file)
 
 # タイトルのデータクレンジング関数
 def title_cleansing(line):
@@ -78,20 +63,9 @@ def p_tag_cleansing(line):
     w_p_content = w_p_content.replace('・'," ")
     return w_p_content
 
-# エクセルファイルへデータを書き込む関数
-def output_data(w_item,company_content,holding_content):
-    wb = op.load_workbook(output_file)
-    sh_name = "会社概要"
-    ws = wb[sh_name]
-    ws.cell(row=count_row,column=2).value = w_item
-    ws.cell(row=count_row,column=3).value = company_content
-    ws.cell(row=count_row,column=4).value = holding_content
-    wb.save(output_file)
 
 
 # メイン処理
-remove_output_file()
-output_file_copy()
 
 #タグ抽出ファイルを開く
 file_data = open(input_file,"r",encoding="utf-8")
@@ -106,8 +80,6 @@ for line in file_data:
     if line == record1:
         w_p_count += 1
     if line == record2:
-        output_data(w_item,w_p_company_content,w_p_holding_content)
-        count_row += 1
         w_p_count = 0
 
     if result1:
@@ -129,8 +101,3 @@ for line in file_data:
             w_p_company_content +=  w_p_content
         elif w_p_count == 2:
             w_p_holding_content += w_p_content
-
-
-    if w_count == 2:
-        output_data(w_item,w_company_content,w_holding_content)
-        count_row += 1
