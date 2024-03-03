@@ -2,8 +2,8 @@
 # ライブラリのインポート
 import re
 import openpyxl as op
-from datetime import datetime
 import shutil
+import os
 
 #項目を取得
 pattern1 = '<td class="title">'
@@ -18,18 +18,13 @@ patturn5 = '<p>'
 
 record1 = '<td class="content">\n'
 record2 = '<td class="title">事業内容</td>\n'
-# 今日の日付を取得
-dt = datetime.now()
-
-# 日付を文字列に加工する
-today_dt = dt.strftime('%Y%m%d%H%M%S')
 
 # 入力ファイル
 input_file =  "flora.txt"
 # テンプレートエクセルファイル
 template_excel_file = "会社概要.xlsx"
 # 出力ファイル
-output_file = "会社概要" + today_dt + ".xlsx"
+output_file = "会社概要出力結果.xlsx"
 # 会社名、ホールディング名判定カウント
 w_count = 0
 # pタグ会社名、ホールディング名判定カウント
@@ -42,6 +37,12 @@ w_flag = 0
 
 #タグ抽出ファイルを開く
 file_data = open(input_file,"r",encoding="utf-8")
+
+# 以前に実行した出力ファイルを削除
+def remove_output_file():
+    is_file = os.path.isfile(output_file)
+    if is_file:
+        os.remove(output_file)
 
 # 出力ファイルのコピーメソッド
 def output_file_copy():
@@ -84,6 +85,9 @@ def output_data(w_item,company_content,holding_content):
     ws.cell(row=count_row,column=4).value = holding_content
     wb.save(output_file)
 
+
+# メイン処理
+remove_output_file()
 output_file_copy()
 # CSVファイルの作成処理
 for line in file_data:
