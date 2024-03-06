@@ -57,6 +57,7 @@ def main():
         with open(result_file,mode="a",encoding="utf-8") as f:
             if result1 or result2 or result3:
                 f.write(line)
+            f.close()
 
 
     # 出力ファイルを閉じる
