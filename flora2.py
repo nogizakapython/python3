@@ -107,18 +107,19 @@ for line in file_data:
     result3 = re.search(patturn3,line)
     result4 = re.search(patturn4,line)
     result5 = re.search(patturn5,line)
-
+    # lineにrecord1のレコードが読み取られたら会社名からホールディングス名に変更する
     if line == record1:
         w_p_count += 1
+    # 事業内容のtdタグを読み取ったらpタグの内容をエクセルファイルに出力する
     if line == record2:
         output_data(w_item,w_p_company_content,w_p_holding_content)
         count_row += 1
         w_p_count = 0
-
+    # 項目データクレンジング関数を呼び出す
     if result1:
         w_count = 0
         w_item = title_cleansing(line)
-
+    # 会社、ホールディングスの項目内容データクレンジング関数を呼び出す(pタグ以外)
     if (result2 and result3) or (result2 and result4):
         w_content = content_cleansing(line)
         if w_count == 0:
@@ -126,7 +127,7 @@ for line in file_data:
         elif w_count == 1:
             w_holding_content = w_content
         w_count += 1
-
+    # 会社、ホールディングスの項目内容データクレンジング関数を呼び出す(pタグ)
     if result5:
         w_p_content = p_tag_cleansing(line)
         if w_p_count == 1:
@@ -138,3 +139,5 @@ for line in file_data:
     if w_count == 2:
         output_data(w_item,w_company_content,w_holding_content)
         count_row += 1
+
+file_data.close()
