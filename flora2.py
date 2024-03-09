@@ -131,9 +131,9 @@ for line in file_data:
     if result5:
         w_p_content = p_tag_cleansing(line)
         if w_p_count == 1:
-            w_p_company_content +=  w_p_content
+            w_p_company_content = w_p_company_content +  w_p_content + "\n"
         elif w_p_count == 2:
-            w_p_holding_content += w_p_content
+            w_p_holding_content = w_p_holding_content + w_p_content + "\n"
 
 
     if w_count == 2:
