@@ -1,0 +1,7 @@
+data = input()
+array1 = data.split(' ')
+N = int(array1[0])
+M = int(array1[1])
+haire_data = input()
+array2 = haire_data.split(' ')
+print(array2[N-1])
