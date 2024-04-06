@@ -1,0 +1,5 @@
+base_number = int(input())
+power_number_1 = int(input())
+power_number_2 = int(input())
+ans = pow(base_number,float(power_number_1 / power_number_2))
+print(ans)
