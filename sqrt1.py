@@ -1,2 +1,2 @@
-ans = pow(2,0.5)
-print(ans)
+import math
+ans = math.sqrt(3)
