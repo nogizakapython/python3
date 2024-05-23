@@ -1,0 +1,6 @@
+num1 = int(input())
+num2 = int(input())
+ans1 = int(num2 / num1)
+ans2 = int(num2 % num1)
+print(ans1)
+print(ans2)
