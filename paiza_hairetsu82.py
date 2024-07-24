@@ -24,7 +24,8 @@ for j in range(q):
         if C < length1:
             array1 = array1[:C]
     else:
-        array1.sort(reverse=True)
+        array1.reverse()
+
 
 for number in array1:
     print(number)
