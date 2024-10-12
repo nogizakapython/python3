@@ -1,0 +1,2 @@
+msg = "cat"
+print(msg)
