@@ -13,6 +13,8 @@ for number in dict1.keys():
     list1.append(int(number))
 # list1を昇順に並び替える
 list1.sort()
+
+print("----結果----")
 # listの要素を取り出し、dict1のkeyと合わせて出力
 for num in list1:
     print(str(num) + " " + dict1[str(num)] )
