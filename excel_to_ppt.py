@@ -56,7 +56,7 @@ def powerpoint_table_copy():
     top = Inches(2.0)
     width = Inches(8.0)
     height = Inches(1.5)
-
+    # テーブルの定義
     table = slide.shapes.add_table(rows, cols, left, top, width, height).table
 
     for j in range(rows):
