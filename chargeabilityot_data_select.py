@@ -56,42 +56,46 @@ def make_work_target_file(base_target_file,change_target_file):
     shutil.copy(base_target_file,change_target_file)
 
 
+def main():
+    # ファイル一覧配列作成
+    file_list_array = make_file_list_array()
+    # 前回のファイル一覧ファイルがあれば削除
+    before_remove_file_list()
+    # 原本のFlashまたはFinishのOTファイル名取得関数
+    change_target_file = get_base_otfile(file_list_array)
+    print(change_target_file)
+    # change_target_file = "work_" + base_target_file
+    # 作業用OTファイル作成
+    # make_work_target_file(base_target_file,change_target_file)
 
-# ファイル一覧配列作成
-file_list_array = make_file_list_array()
-# 前回のファイル一覧ファイルがあれば削除
-before_remove_file_list()
-# 原本のFlashまたはFinishのOTファイル名取得関数
-change_target_file = get_base_otfile(file_list_array)
-print(change_target_file)
-# change_target_file = "work_" + base_target_file
-# 作業用OTファイル作成
-# make_work_target_file(base_target_file,change_target_file)
+    # print(change_target_file)
+    # Workbookインスタンス変数
+    wb = openpyxl.load_workbook(change_target_file)
+    # ExcelのWorksheet変数を定義する
+    sheet_name = wb.sheetnames[0]
+    ws = wb[sheet_name]
 
-# print(change_target_file)
-# Workbookインスタンス変数
-wb = openpyxl.load_workbook(change_target_file)
-# ExcelのWorksheet変数を定義する
-sheet_name = wb.sheetnames[0]
-ws = wb[sheet_name]
+    # 開始行をセット
+    count = 3
+    procedure_count = 3
+    while True:
+        div = ws.cell(count,7).value
+        # 部署が「Tecnplogy」の時、１行削除する
+        if div == None:
+            break
+        elif div != "Operations" and div != "Operations-FT" and div != "Operations-RS":
+            ws.delete_rows(count)
+        else:    
+            count += 1
 
-# 開始行をセット
-count = 3
-procedure_count = 3
-while True:
-    div = ws.cell(count,7).value
-    # 部署が「Tecnplogy」の時、１行削除する
-    if div == None:
-        break
-    elif div != "Operations" and div != "Operations-FT" and div != "Operations-RS":
-        ws.delete_rows(count)
-    else:    
-        count += 1
+        procedure_count += 1
+        if procedure_count % 10 == 0:
+            wb.save(change_target_file)    
 
-    procedure_count += 1
-    if procedure_count % 10 == 0:
-        wb.save(change_target_file)    
+    # 削除処理後、ファイルを保存する
+    wb.save(change_target_file)
+    print("削除処理完了だよ") 
 
-# 削除処理後、ファイルを保存する
-wb.save(change_target_file)
-print("削除処理完了だよ") 
+
+if __name__ == '__main__':
+    main()    
