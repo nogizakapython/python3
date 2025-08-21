@@ -1,0 +1,417 @@
+Private Sub 作業シートに入力(ws As Worksheet, indexcolumn As Long, indexrow As Long, startcolumn As Long, startrow As Long, endcolumn As Long, endrow As Long)
+
+Application.ScreenUpdating = False
+
+'iは上から下に繰り返し
+'jは左から右に繰り返し
+'indexcolumnは社員名が書かれている列
+'indexrowは日付が書かれている行
+'startcolumnは日付の始め
+'startrowは社員名の始め
+'emdcolumnは日付の終わり
+'endrowは社員名の終わり
+
+Dim i As Long
+Dim j As Long
+Dim TargetRow As Long
+Dim TargetColumn As Long
+Dim EmployeeName As String
+Dim TargetDate As Date
+
+For i = startrow To endrow
+    For j = startcolumn To endcolumn
+        '社員名を取得
+        EmployeeName = ws.Cells(i, indexcolumn).Value
+        TargetRow = ThisWorkbook.Sheets(1).Columns(1).Find(EmployeeName, , xlFormulas, xlWhole).Row
+        '日付を取得
+        TargetDate = ws.Cells(indexrow, j).Value
+        TargetColumn = ThisWorkbook.Sheets(1).Rows(2).Find(TargetDate).Column
+        '転記
+        ThisWorkbook.Sheets(1).Cells(TargetRow, TargetColumn).Value = ws.Cells(i, j).Value
+
+    Next j
+Next i
+
+End Sub
+
+Private Sub 作業シートから入力(ws As Worksheet, indexcolumn As Long, indexrow As Long, startcolumn As Long, startrow As Long, nextmonth As Date)
+
+Application.ScreenUpdating = False
+
+'iは上から下に繰り返し
+'jは左から右に繰り返し
+'indexcolumnは社員名が書かれている列
+'indexrowは日付が書かれている行
+'startcolumnは日付の始め
+'startrowは社員名の始め
+'nextmonthは翌月の始め
+
+Dim i As Long
+Dim j As Long
+Dim TargetRow As Long
+Dim TargetColumn As Long
+Dim EmployeeName As String
+Dim TargetDate As Date
+
+For i = startrow To ws.Cells(Rows.Count, indexcolumn).End(xlUp).Row
+    For j = startcolumn To ws.Cells(indexrow, Columns.Count).End(xlToLeft).Column
+        '社員名を取得
+        EmployeeName = ws.Cells(i, indexcolumn).Value
+        TargetRow = ThisWorkbook.Sheets(1).Columns(1).Find(EmployeeName, , xlFormulas, xlWhole).Row
+        '日付を取得
+        TargetDate = ws.Cells(indexrow, j).Value
+        '翌月の場合は転記しない
+        If TargetDate < nextmonth Then
+            TargetColumn = ThisWorkbook.Sheets(1).Rows(2).Find(TargetDate, , xlFormulas, xlPart).Column
+            '転記
+            ws.Cells(i, j).Value = ThisWorkbook.Sheets(1).Cells(TargetRow, TargetColumn).Value
+        End If
+
+
+    Next j
+Next i
+
+End Sub
+
+Sub マクロ1()
+
+Application.ScreenUpdating = False
+
+Dim wb1 As Workbook
+Dim wb2 As Workbook
+Dim wb3 As Workbook
+Dim wb4 As Workbook
+Dim ws1 As Worksheet
+Dim Filewb4 As String
+Dim MaxRow As Long
+Dim MaxColumn As Long
+Dim KinmuhyoLastColumn As Long
+
+Dim LastMonthStart As Date
+Dim ThisMonthStart As Date
+Dim ThisYear As Long
+Dim ThisMonth As Long
+Dim LastYear As Long
+Dim LastMonth As Long
+Dim SecondLastYear As Long
+Dim SecondLastMonth As Long
+
+Dim i As Long
+Dim j As Long
+Dim TargetRow As Long
+Dim Employee As String
+
+LastMonthStart = ThisWorkbook.Sheets(1).Range("B2").Value
+ThisMonthStart = DateAdd("m", 1, LastMonthStart)
+ThisYear = Year(ThisMonthStart)
+ThisMonth = Month(ThisMonthStart)
+LastYear = Year(LastMonthStart)
+LastMonth = Month(LastMonthStart)
+
+ThisYear = Str(ThisYear)
+ThisMonth = Str(ThisMonth)
+LastYear = Str(LastYear)
+LastMonth = Str(LastMonth)
+
+'ファイルを開く
+Set wb1 = Workbooks.Open(ThisWorkbook.Path & "\【AP保守】勤務実績（" & LastYear & "年" & LastMonth & "月).xlsx")
+Set wb2 = Workbooks.Open(ThisWorkbook.Path & "\【AP保守】勤務実績（" & LastYear & "年" & LastMonth & "月)Adjust.xlsx")
+Set wb3 = Workbooks.Open(ThisWorkbook.Path & "\【AP保守】勤務実績（" & ThisYear & "年" & ThisMonth & "月).xlsx")
+Filewb4 = Dir(ThisWorkbook.Path & "\01.請求書inputデータ（ログ比較済）*P_請求書作成用_ver*.xlsx")
+Set wb4 = Workbooks.Open(ThisWorkbook.Path & "\" & Filewb4)
+Set ws1 = wb1.Sheets("実績表(請求-全体)")
+
+'非表示の解除
+wb1.Sheets("実績表(請求-全体)").Columns("S:AX").Hidden = False
+wb2.Sheets("実績表(実績-全体)").Columns("S:AX").Hidden = False
+wb2.Sheets("実績表(請求-全体)").Columns("S:AX").Hidden = False
+wb3.Sheets("実績表(請求-全体)").Columns("S:AX").Hidden = False
+
+'日付の修正
+
+For i = 1 To wb2.Sheets.Count
+
+    If wb2.Sheets(i).Name Like "実績差分*" Then
+        wb2.Sheets(i).Name = "実績差分（" & LastYear & "年" & LastMonth & "月-全体）"
+        Exit For
+    End If
+
+Next i
+
+wb2.Sheets("実績表(実績-全体)").Range("S4").Value = LastMonthStart
+wb2.Sheets("実績表(請求-全体)").Range("S4").Value = LastMonthStart
+wb3.Sheets("実績表(請求-全体)").Range("S4").Value = ThisMonthStart
+
+'データのクリア
+'Adjust＞実績
+MaxRow = wb2.Sheets("実績表(実績-全体)").Cells(Rows.Count, 1).End(xlUp).Row
+MaxColumn = wb2.Sheets("実績表(実績-全体)").Cells(4, Columns.Count).End(xlToLeft).Column
+Range(wb2.Sheets("実績表(実績-全体)").Range("S5"), wb2.Sheets("実績表(実績-全体)").Cells(MaxRow, MaxColumn)).ClearContents
+'Adjust＞請求
+MaxRow = wb2.Sheets("実績表(請求-全体)").Cells(Rows.Count, 1).End(xlUp).Row
+MaxColumn = wb2.Sheets("実績表(請求-全体)").Cells(4, Columns.Count).End(xlToLeft).Column
+Range(wb2.Sheets("実績表(請求-全体)").Range("S5"), wb2.Sheets("実績表(請求-全体)").Cells(MaxRow, MaxColumn)).ClearContents
+'今月＞請求
+MaxRow = wb3.Sheets("実績表(請求-全体)").Cells(Rows.Count, 1).End(xlUp).Row
+MaxColumn = wb3.Sheets("実績表(請求-全体)").Cells(4, Columns.Count).End(xlToLeft).Column
+Range(wb3.Sheets("実績表(請求-全体)").Range("S5"), wb3.Sheets("実績表(請求-全体)").Cells(MaxRow, MaxColumn)).ClearContents
+'作業シート
+MaxRow = ThisWorkbook.Sheets(1).Cells(Rows.Count, 1).End(xlUp).Row
+MaxColumn = ThisWorkbook.Sheets(1).Cells(2, Columns.Count).End(xlToLeft).Column
+Range(ThisWorkbook.Sheets(1).Range("B3"), ThisWorkbook.Sheets(1).Cells(MaxRow, MaxColumn)).ClearContents
+
+'Adjustファイル請求シート
+MaxRow = wb1.Sheets("実績表(請求-全体)").Cells(Rows.Count, 1).End(xlUp).Row
+MaxColumn = wb1.Sheets("実績表(請求-全体)").Cells(4, Columns.Count).End(xlToLeft).Column
+For i = 5 To MaxRow
+    Employee = wb1.Sheets("実績表(請求-全体)").Cells(i, 3).Value
+    TargetRow = wb2.Sheets("実績表(請求-全体)").Columns("C").Find(Employee, , xlFormulas, xlWhole).Row
+    Range(wb1.Sheets("実績表(請求-全体)").Cells(i, 19), wb1.Sheets("実績表(請求-全体)").Cells(i, MaxColumn)).Copy
+    wb2.Sheets("実績表(請求-全体)").Cells(TargetRow, 19).PasteSpecial
+Next i
+
+'作業シート作成
+Call 作業シートに入力(ws1, 3, 4, 19, 5, ws1.Cells(4, Columns.Count).End(xlToLeft).Column, ws1.Cells(Rows.Count, 3).End(xlUp).Row)
+
+j = 11
+Do While IsDate(wb4.Sheets("勤務表").Cells(13, j).Value) = True
+    j = j + 1
+Loop
+KinmuhyoLastColumn = j
+
+Call 作業シートに入力(wb4.Sheets("勤務表"), 1, 13, 11, 14, KinmuhyoLastColumn - 1, wb4.Sheets("勤務表").Range("A13").End(xlDown).Row)
+
+wb1.Save
+wb2.Save
+wb3.Save
+wb4.Save
+ThisWorkbook.Save
+
+MsgBox "マクロ1が完了しました。見込時間を入力した後、マクロ2を実行してください。"
+
+End Sub
+
+Sub マクロ2()
+
+Application.ScreenUpdating = False
+
+Dim FSO As Object
+
+Dim i As Long
+Dim LastMonthStart As Date
+Dim ThisMonthStart As Date
+Dim NextMonthStart As Date
+Dim ThisMonthLast As Date
+Dim NextMonthLast As Date
+Dim ThisYear As Long
+Dim ThisMonth As Long
+Dim LastYear As Long
+Dim LastMonth As Long
+Dim SecondLastYear As Long
+Dim SecondLastMonth As Long
+Dim MaxRow1 As Long
+Dim MaxRow2 As Long
+Dim Employee As String
+Dim TargetRow As Long
+Dim Index As String
+
+LastMonthStart = ThisWorkbook.Sheets(1).Range("B2").Value
+ThisMonthStart = DateAdd("m", 1, LastMonthStart)
+NextMonthStart = DateAdd("m", 1, ThisMonthStart)
+ThisMonthLast = DateAdd("d", -1, NextMonthStart)
+NextMonthLast = DateAdd("d", -1, DateAdd("m", 1, NextMonthStart))
+ThisYear = Year(ThisMonthStart)
+ThisMonth = Month(ThisMonthStart)
+LastYear = Year(LastMonthStart)
+LastMonth = Month(LastMonthStart)
+
+ThisYear = Str(ThisYear)
+ThisMonth = Str(ThisMonth)
+LastYear = Str(LastYear)
+LastMonth = Str(LastMonth)
+
+Dim wb2 As Workbook
+Dim wb3 As Workbook
+Set wb2 = Workbooks.Open(ThisWorkbook.Path & "\【AP保守】勤務実績（" & LastYear & "年" & LastMonth & "月)Adjust.xlsx")
+Set wb3 = Workbooks.Open(ThisWorkbook.Path & "\【AP保守】勤務実績（" & ThisYear & "年" & ThisMonth & "月).xlsx")
+
+Call 作業シートから入力(wb2.Sheets("実績表(実績-全体)"), 3, 4, 19, 5, ThisMonthStart)
+Call 作業シートから入力(wb3.Sheets("実績表(請求-全体)"), 3, 4, 19, 5, NextMonthStart)
+
+'差分の転記
+
+Dim ws1 As Worksheet
+Dim ws2 As Worksheet
+Dim ws3 As Worksheet
+Set ws1 = wb3.Sheets("実績表(請求-全体)")
+Set ws2 = wb2.Sheets("実績差分（" & LastYear & "年" & LastMonth & "月-全体）")
+Set ws3 = wb3.Sheets("要員分類別勤務実績(全体)")
+
+For i = 3 To ws2.Cells(Rows.Count, 2).End(xlUp).Row
+
+    Employee = ws2.Cells(i, 3).Value
+    TargetRow = ws3.Columns("D").Find(Employee, , xlFormulas, xlWhole).Row
+    ws3.Cells(TargetRow, 8).Value = ws2.Cells(i, 10).Value
+Next i
+
+For i = 3 To ws3.Cells(Rows.Count, 3).End(xlUp).Row
+
+    Employee = ws3.Cells(i, 4).Value
+    TargetRow = ws1.Columns("C").Find(Employee, , xlValues, xlWhole).Row
+    ws3.Cells(i, 5).Value = ws1.Cells(TargetRow, 2).Value
+    ws3.Cells(i, 6).Value = ws1.Cells(TargetRow, 1).Value
+    ws3.Cells(i, 7).Value = ws1.Cells(TargetRow, 12).Value
+Next i
+
+'請求書内訳シート
+'ファイル名を変更
+
+Dim wb5 As Workbook
+Dim ws5 As Worksheet
+Dim Filename5 As String
+Filename5 = Dir(ThisWorkbook.Path & "\請求書内訳*")
+
+If Filename5 <> "請求書内訳(" & ThisYear & "年" & ThisMonth & "月).xlsx" Then
+    Set FSO = CreateObject("Scripting.FileSystemObject")
+    FSO.GetFile(ThisWorkbook.Path & "\" & Filename5).Name = "請求書内訳(" & ThisYear & "年" & ThisMonth & "月).xlsx"
+    Set FSO = Nothing
+End If
+
+'月を記入
+
+Set wb5 = Workbooks.Open(ThisWorkbook.Path & "\請求書内訳(" & ThisYear & "年" & ThisMonth & "月).xlsx")
+Set ws5 = wb5.Sheets(1)
+ws5.Name = ThisMonth & "月内訳 "
+ws5.Range("A4").Value = ThisYear & "年" & ThisMonth & "月分"
+
+'データのクリア
+For i = 5 To ws5.Cells(Rows.Count, 2).End(xlUp).Row
+    If ws5.Cells(i, 2) <> "合計" Then
+        ws5.Cells(i, 7).ClearContents
+    End If
+
+Next i
+
+'作業時間の入力
+For i = 5 To ws5.Cells(Rows.Count, 3).End(xlUp).Row
+    If ws5.Cells(i, 2) <> "合計" Then
+        Index = ws5.Cells(i, 3).Value
+        TargetRow = ws3.Columns("L").Find(Index, , xlFormulas, xlWhole).Row
+        ws5.Cells(i, 7).Value = ws3.Cells(TargetRow, 14).Value
+
+    End If
+Next i
+
+'請求書ファイル
+'ファイル名を変更
+
+Dim wb6 As Workbook
+Dim ws6 As Worksheet
+Dim Filename6 As String
+Filename6 = Dir(ThisWorkbook.Path & "\請求書作成Request Form_JPIT_*")
+
+If Filename6 <> "請求書作成Request Form_JPIT_" & ThisMonth & "月度.xlsx" Then
+    Set FSO = CreateObject("Scripting.FileSystemObject")
+    FSO.GetFile(ThisWorkbook.Path & "\" & Filename6).Name = "請求書作成Request Form_JPIT_" & ThisMonth & "月度.xlsx"
+    Set FSO = Nothing
+End If
+
+Set wb6 = Workbooks.Open(ThisWorkbook.Path & "\請求書作成Request Form_JPIT_" & ThisMonth & "月度.xlsx")
+Set ws6 = wb6.Sheets("Request Form")
+
+'情報の転記
+ws6.Range("F16").Value = ws5.Cells(Rows.Count, 8).End(xlUp).Value
+ws6.Range("F4").Value = "JPiT請求書_" & Format(ThisMonthStart, "yyyymm")
+ws6.Range("F11").Value = "※翌月第2営業日※"
+ws6.Range("F15").Value = "財務総合情報システムのアプリケーション保守作業" & vbLf & "（" & ThisYear & "年" & ThisMonth & "月度分）"
+ws6.Range("F30").Value = NextMonthLast
+ws6.Range("F36").Value = "期間 :" & Format(ThisMonthStart, "yyyy/mm/dd") & " - " & Format(ThisMonthLast, "yyyy/mm/dd")
+
+wb2.Save
+wb3.Save
+wb5.Save
+wb6.Save
+
+MsgBox "完了しました。Invoice Dateを手入力してください。"
+
+End Sub
+
+Sub マクロ3()
+
+Application.ScreenUpdating = False
+
+Dim FSO As Object
+Dim LastMonthStart As Date
+Dim ThisMonthStart As Date
+Dim NextMonthStart As Date
+Dim ThisMonthLast As Date
+Dim NextMonthLast As Date
+Dim ThisYear As Long
+Dim ThisMonth As Long
+Dim LastYear As Long
+Dim LastMonth As Long
+
+LastMonthStart = ThisWorkbook.Sheets(1).Range("B2").Value
+ThisMonthStart = DateAdd("m", 1, LastMonthStart)
+NextMonthStart = DateAdd("m", 1, ThisMonthStart)
+ThisMonthLast = DateAdd("d", -1, NextMonthStart)
+NextMonthLast = DateAdd("d", -1, DateAdd("m", 1, NextMonthStart))
+ThisYear = Year(ThisMonthStart)
+ThisMonth = Month(ThisMonthStart)
+LastYear = Year(LastMonthStart)
+LastMonth = Month(LastMonthStart)
+
+ThisYear = Str(ThisYear)
+ThisMonth = Str(ThisMonth)
+LastYear = Str(LastYear)
+LastMonth = Str(LastMonth)
+
+'請求書内訳シート
+'ファイル名を変更
+
+Dim wb5 As Workbook
+Dim ws5 As Worksheet
+Dim Filename5 As String
+Filename5 = Dir(ThisWorkbook.Path & "\請求書内訳*")
+
+If Filename5 <> "請求書内訳(" & ThisYear & "年" & ThisMonth & "月).xlsx" Then
+    Set FSO = CreateObject("Scripting.FileSystemObject")
+    FSO.GetFile(ThisWorkbook.Path & "\" & Filename5).Name = "請求書内訳(" & ThisYear & "年" & ThisMonth & "月).xlsx"
+    Set FSO = Nothing
+End If
+
+'月を記入
+
+Set wb5 = Workbooks.Open(ThisWorkbook.Path & "\請求書内訳(" & ThisYear & "年" & ThisMonth & "月).xlsx")
+Set ws5 = wb5.Sheets(1)
+ws5.Name = ThisMonth & "月内訳 "
+ws5.Range("A4").Value = ThisYear & "年" & ThisMonth & "月分"
+
+'請求書ファイル
+'ファイル名を変更
+
+Dim wb6 As Workbook
+Dim ws6 As Worksheet
+Dim Filename6 As String
+Filename6 = Dir(ThisWorkbook.Path & "\請求書作成Request Form_JPIT_*")
+
+If Filename6 <> "請求書作成Request Form_JPIT_" & ThisMonth & "月度.xlsx" Then
+    Set FSO = CreateObject("Scripting.FileSystemObject")
+    FSO.GetFile(ThisWorkbook.Path & "\" & Filename6).Name = "請求書作成Request Form_JPIT_" & ThisMonth & "月度.xlsx"
+    Set FSO = Nothing
+End If
+
+Set wb6 = Workbooks.Open(ThisWorkbook.Path & "\請求書作成Request Form_JPIT_" & ThisMonth & "月度.xlsx")
+Set ws6 = wb6.Sheets("Request Form")
+
+'情報の転記
+ws6.Range("F16").Value = ws5.Cells(Rows.Count, 8).End(xlUp).Value
+ws6.Range("F4").Value = "JPiT請求書_" & Format(ThisMonthStart, "yyyymm")
+ws6.Range("F11").Value = "※翌月第2営業日※"
+ws6.Range("F15").Value = "財務総合情報システムのアプリケーション保守作業" & vbLf & "（" & ThisYear & "年" & ThisMonth & "月度分）"
+ws6.Range("F30").Value = NextMonthLast
+ws6.Range("F36").Value = "期間 :" & Format(ThisMonthStart, "yyyy/mm/dd") & " - " & Format(ThisMonthLast, "yyyy/mm/dd")
+
+MsgBox "完了しました。"
+
+End Sub
