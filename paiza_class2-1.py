@@ -13,6 +13,7 @@ for i in range(n):
     name, old, birth, state = input().split()
     roster[i] = Student(name, old, birth, state)
 
+
 k = input()
 for student in roster:
     if student.old == k:
