@@ -1,5 +1,8 @@
-# 標準入力から与えられた文字列をそのまま出力してください。
+num = 3
+array1 = []
 
-s = input()
+for i in range(num):
+    line1 = input()
+    array1.append(line1)
 
-print(s)
+print(array1[1])
