@@ -7,3 +7,4 @@ if ans > C:
     print("Yes")
 else:
     print("No")
+    # print("No")
