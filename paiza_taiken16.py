@@ -1,3 +1,5 @@
-# 文字列"good"を出力してください
-
-print("good")
+A, B, C = map(int, input().split())
+if A > C // B:
+    print('Yes')
+else:
+    print('No')
