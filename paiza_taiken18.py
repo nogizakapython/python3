@@ -1,3 +1,7 @@
-# 1 行目に文字列 "Hello" を、2 行目に "World" を出力してください。
-print("Hello")
-print("World")
+# coding: utf-8
+# 自分の得意な言語で
+# Let's チャレンジ！！
+A,B,C = map(int,input().split(" "))
+ans = "Yes" if A * B > C else "No" 
+print(ans)
+    
