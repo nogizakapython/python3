@@ -1,3 +1,3 @@
-# 文字列 "Hello" を出力してください。
+# 文字列 "Hello paiza" を出力してください。
 
-print('Hello')
+print("Hello paiza")
