@@ -1,0 +1,6 @@
+n, m = map(int, input().split())
+a, b = map(int, input().split())
+print(n + 1)
+print(m + 1)
+print(a + 1)
+print(b + 1)
