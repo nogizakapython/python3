@@ -1,0 +1,8 @@
+L = int(input())
+u, a, b = map(int, input().split())
+v = int(input())
+print(L + 1)
+print(u + 1)
+print(a + 1)
+print(b + 1)
+print(v + 1)
