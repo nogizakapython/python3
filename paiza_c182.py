@@ -8,9 +8,9 @@
 n = int(input())
 data = input()
 array1 = data.split(' ')
-l = len(array1)
+
 count = 0
-for i in range(2,l):
+for i in range(2,n):
     b = int(array1[i-2])
     c = int(array1[i-1])
     d = int(array1[i])
