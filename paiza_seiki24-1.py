@@ -1,4 +1,5 @@
 import re
 
 s = input()
-print(re.sub(r'/\*.*\*/', r'', s, 1))
+for i in re.split(r'-{3,}', s):
+    print(i)
