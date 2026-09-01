@@ -1,4 +1,5 @@
 import re
 
 s = input()
-print(re.sub(r'import [a-zA-Z0-9]+', r'', s))
+print(re.search(r'G[A-Z]??C', s).start())
+print(re.search(r'G[A-Z]??C', s).group())
