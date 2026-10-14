@@ -10,4 +10,4 @@ for i in range(10):
 for i in range(10):
     s[i + 1] = s[i] + b[i]
 
-print(s[Y + 1] - s[X])s
+print(s[Y + 1] - s[X])
