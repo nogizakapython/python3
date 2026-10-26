@@ -1,12 +1,5 @@
-# coding: utf-8
-# 自分の得意な言語で
-# Let's チャレンジ！！
-year = int(input())
-if year % 100 == 0 and year % 400 == 0:
-    print("Leap")
-elif year % 100 == 0 and year % 400 != 0:
-    print("Common")
-elif year % 4 == 0:
-    print("Leap")
-else:    
-    print("Common")
+# N 組の文字列を受け取り、T_i を出力してください。
+N = int(input())
+for i in range(N):
+    s, t = map(str,input().split())
+    print(t)
