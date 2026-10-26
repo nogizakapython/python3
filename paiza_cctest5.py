@@ -1,10 +1,5 @@
+# N 組の整数を受け取り、B_i を出力してください。
 N = int(input())
-
-if N % 400 == 0:
-    print("Leap")
-elif N % 100 == 0:
-    print("Common")
-elif N % 4 == 0:
-    print("Leap")
-else:
-    print("Common")
+for i in range(N):
+    a, b = map(int,input().split())
+    print(b)
