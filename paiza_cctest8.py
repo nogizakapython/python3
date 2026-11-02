@@ -1,17 +1,6 @@
-# coding: utf-8
-# 自分の得意な言語で
-# Let's チャレンジ！！
-n = int(input())
-count = 0
-array1 = ['p','a','i','z']
-for i in range(n):
-    data = input()
-    leng = len(data)
-    for i in range(leng):
-        str1 = data[i]
-        for word in array1:
-            if str1 == word:
-                count += 1
-                
-    print(count)
-    count = 0
+# a が b 以下かつ a + b が c 以下であるなら "Yes" を、そうでないなら "No" を出力してください。
+a, b, c = list(map(int, input().split()))
+if a <= b and a + b <= c:
+    print('Yes')
+else:
+    print('No')
