@@ -1,10 +1,9 @@
-# ==========================================================
-# 【Python3】標準入力の書き方に困ったらこちら！
-# 
-# 「入力される値」の取得方法一覧（Python）
-# https://paiza.jp/pages/works/cheatsheet/stdin_python
-# ==========================================================
-# ここからコードを書き始めてください
-array1 = list(map(str,input().split(' ')))
-for s in list(array1):
-    print(s)
+# 合格なら Yes そうでないなら No を出力してください。
+N, X = list(map(int, input().split()))
+
+for i in range(N):
+    a, b = map(int,input().split())
+    if a >= X and b >= X:
+        print("Yes")
+    else:
+        print("No")
