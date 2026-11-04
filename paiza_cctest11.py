@@ -5,7 +5,10 @@
 # https://paiza.jp/pages/works/cheatsheet/stdin_python
 # ==========================================================
 # ここからコードを書き始めてください
-n = 2
+n,x,y = map(int,input().split())
 for i in range(n):
-    s = input()
-    print(s)
+    a,b = map(int,input().split())
+    if (a >= x and b >= x) and a + b >= y:
+        print("Yes")
+    else:
+        print("No")
